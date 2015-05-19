@@ -1,45 +1,15 @@
 \chapter{背景介绍}
 	\section{中文拼音简介}
 
-	本文档所在目录下各重要文件如下：
-	\begin{itemize}\denselist
-		\item \verb|pkuthss.cls|：pkuthss~文档类的类文件。
-		\item \verb|pkuthss-gbk.def|：
-			在~\verb|pkuthss.cls|~中使用的定义文件，用于~GBK~编码。
-		\item \verb|pkuthss-utf8.def|：
-			在~\verb|pkuthss.cls|~中使用的定义文件，用于~UTF-8~编码。
-		\item \verb|sample.tex|：主文件，编译该文件即可。
-		\item \verb|sample.pdf|：即本文档，由编译~\verb|sample.tex|~得到。
-		\item \verb|Makefile|：Makefile，用于使编译工作自动化。
-		\item \verb|Make.bat|：
-			Windows~下的伪“Makefile”，由~Windows~的批处理实现。
-		\item \verb|chap/|：文件夹，包含各章节内容：
-		\begin{itemize}\denselist
-			\item \verb|copyright.tex|：版权声明部分\footnote%
-			{%
-				因为本文档的许可证限制，我们必须附上许可证的文本；
-				但用户可能选择其它类型的版权声明，
-				故~\texttt{license/}\linebreak[1]~目录不是必需的。
-				一个可能更常用的版权声明已经放在此文件中，但被注释掉了，
-				用户可以考虑使用那个版本。
-				如果使用那个版本，就不再需要~\texttt{license/}~目录了。
-			}。
-			\item \verb|originauth.tex|：
-				原创性声明和使用授权说明部分~\supercite{F11}。
-		\end{itemize}
-		\item \verb|img/|：文件夹，包含论文中所有图片：
-		\begin{itemize}\denselist
-			\item \verb|Makefile|：图片部分的~Makefile。
-			\item \verb|Make.bat|：
-				Windows~下的伪“Makefile”，由~Windows~的批处理实现。
-			\item \verb|pkulogo.ps|：北大校徽。
-			\item \verb|pkuword.ps|：“北京大学”字样。
-		\end{itemize}
-	\end{itemize}
+	目前在中国大陆，一般的学前教育或者小学教育都是选汉语拼音作为中文教育的起点。汉语拼音，或又称拼音，是一种以拉丁字母作汉字标音的方案。\supercite{wjm}汉语拼音使用拉丁字母和标注在字母之上的一些附加符号来表示汉语发音。参考现代音韵学中对汉语音节结构的划分，可以将构成汉语拼音的成分分为声母、韵母和声调三部分。现代拼音输入法主要考虑声母和韵母两部分作为检索汉字的输入。
+
+	按照汉语拼音方案《声母表》中的规定，声母由汉语中每一个音节的起始辅音构成。在中国诸多方言中，对辅音有不同程度的混合和模糊。如西南官话中的四川方言，对卷舌音和齿龈音不加区分，部分边音与鼻音不加区分；闽南语的泉漳片方言对唇齿音和软颚音音不加区分等等。\supercite{jdp}相对的，韵母主要有汉语中没一个音节的元音构成。按照韵母结构，又可将韵母分为单韵母、复韵母和鼻韵母三类。
+
+	在汉语拼音系统中，还有语流音变现象，包括变调、轻声、儿化、音变等等。但这些现象在现代汉语拼音输入法中均没有得到使用，在此略过不谈。
 
 	\section{现有拼音输入法}
 
-	正确编译需要以下几部分：
+	现代主流的拼音输入法，根据
 	\begin{itemize}\denselist
 		\item 一个基本的~\LaTeX{}~发行版。
 		\item CJK~或~xeCJK（供~Xe\LaTeX{}~使用）宏包。
