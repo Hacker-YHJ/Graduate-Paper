@@ -1,143 +1,35 @@
-\chapter{面向生手的拼音键盘设计}
-	\section{用户分析}
+\chapter{面向初学者的拼音键盘设计}
+	\section{设计初衷}
 
-	pkuthss~文档类以~ctexbook~文档类为基础，
-	其接受的所有文档类选项均被传递给~ctexbook。
+  对于中国大陆的儿童来说，初级中文教育并不会详细解释如单元音和复元音等等复杂的概念，儿童对韵母构成的理解局限于整体拼写和读音的一一对应关系。而现阶段的拼音输入法都是基于拉丁字母，对尤其是韵母部分，输入时需要进行拆分，如将 “iang” 拆分为 “i”，“a”，“n”，“g” 进行输入。这相当于要求儿童学习拉丁字母以及基于拉丁字母的键盘，对学习拼音输入的儿童来说是一种负担。
 
-	例如，ctexbook~文档类默认使用~GBK~编码，
-	因此如果需要使用~UTF-8~编码撰写论文，
-	则在导入~pkuthss~文档类时加上~\verb|UTF8|~选项即可：
-\begin{verbatim}
-      \usepackage[UTF8,...]{pkuthss} % “...”代表其它的选项。
-\end{verbatim}
-	类似地，如果需要使用~hyperref~宏包，
-	则为了利用~ctexbook~文档类对~hyperref~宏包的支持特性，
-	可以传递~\verb|hyperref|~选项给~ctexbook~宏包：
-\begin{verbatim}
-      \usepackage[hyperref,...]{pkuthss} % “...”代表其它的选项。
-\end{verbatim}
+	对于国内的一些中老年人，学习中文的时候，并没有掌握学习拼音。对他们来说，复杂的拉丁字母组合也是学习拼音输入一大难题。这一部分用户使用手写输入法为主，会遇到第\ref{sec:writing}节提到过的问题。尤其考虑到一部分半文盲用户，只具备汉语的听、说、辨识能力，还不具备正确的书写能力，学习拼音输入对他们来说更是难上加难。
 
-	\section{设计理念}
-		\subsection{用于设定文档信息的命令}
+	对身居海外的华侨子女，外国人来说，他们学习中文的条件和工具很有限，也是使用的笔画输入法为主。学习使用拼音输入法对他们来说很吃力，将拼音，尤其是韵母拆分为数个拉丁字母进行输入，是一种不直观而且回忆式操作门槛相对较高的方式。特别对有英文输入基础的人，QWERTY键盘反而会有一定程度上的误导性。
 
-		这一类命令的语法是
-\begin{verbatim}
-      \commandname{具体信息} % commandname 为具体命令的名称。
-\end{verbatim}
+	本设计主要面向以上特定人群，⽬的在于克服目前技术中存在的问题，提供⼀种自然的、⾮记忆的中⽂输⼊方法，综合运⽤用汉字多种特征编码，从⽽有效地减少学习负担，提高中⽂输入的效率。当然，对于已经有一定汉语基础，能够熟练掌握汉字声形的用户群体，本设计并不适用。
 
-		这些命令总结如下\footnote%
-		{\ \ttfamily\songti%
-			\string\title、\string\author~和~\string\date~%
-			实际上是从~ctexbook~文档类继承来的。%
-		}：
-		\begin{itemize}\denselist
-			\item \verb|\title|：设定论文标题；
-			\item \verb|\etitle|：设定论文英文标题；
-			\item \verb|\author|：设定作者；
-			\item \verb|\eauthor|：设定作者的英文名；
-			\item \verb|\date|：设定日期；
-			\item \verb|\studentid|：设定学号；
-			\item \verb|\school|：设定学院；
-			\item \verb|\major|：设定专业；
-			\item \verb|\emajor|：设定专业的英文名；
-			\item \verb|\direction|：设定研究方向；
-			\item \verb|\mentor|：设定导师；
-			\item \verb|\ementor|：设定导师的英文名；
-			\item \verb|\keywords|：设定关键词；
-			\item \verb|\ekeywords|：英文关键词。
-		\end{itemize}
+  此外，考虑到多点触控设备发展迅速，其尺寸有日益增大的趋势，为多点触控等交互手段提供了足够的操作空间。而目前主流拼音输入法中，并没有利用这一优势。本设计希望能充分利用大型触摸设备上多点触控的优势，同时不摒弃原来单点触控的输入方式，提供一种更灵活方便的输入体验。
 
-		例如，如果要设定专业为“化学”，则可以使用以下命令：
-\begin{verbatim}
-      \major{化学}
-\end{verbatim}
+	\section{设计分析}
 
-		\subsection{“\texttt{name}”类命令}
+	为了达成设计初衷，本设计采用了声母韵母分离独立输入的方式。
 
-		这一类命令的语法是
-\begin{verbatim}
-      % commandname 为具体的命令名。
-      \renewcommand{\commandname}{具体信息}
-\end{verbatim}
+	\begin{figure}[h]
+	\noindent\includegraphics[width=150mm]{img/layout1_background}
+	\caption{输入界面}
+	\label{fig:layout1_background}
+	\end{figure}
 
-		这些命令总结如下\footnote%
-		{\ \ttfamily\songti%
-			\string\contentsname~和~\string\bibname~%
-			实际上是从~ctexbook~文档类继承来的。%
-		}：
-		\begin{itemize}\denselist
-			\item \verb|\thesisname|：论文类别名。
-			\item \verb|\cabstractname|：中文摘要的标题。
-			\item \verb|\eabstractname|：英文摘要的标题。
-			\item \verb|\contentsname|：目录的标题。
-			\item \verb|\bibname|：参考文献目录的标题。
-		\end{itemize}
+	所述检索信息包括声母和韵母中的一项或多项
 
-		例如，如果要设定论文的类别为“本科生毕业论文”，
-		则可以使用以下命令：
-\begin{verbatim}
-      \renewcommand{\thesisname}{本科生毕业论文}
-\end{verbatim}
-		而如果要设定中文摘要的标题为“摘\hspace{2em}要”，
-		则可以使用以下命令：
-\begin{verbatim}
-      \renewcommand{\abstractname}{摘\hspace{2em}要}
-\end{verbatim}
+	所述输⼊设备根据所述检索信息得到各个候选字集后通过设定的算法将所述候选字集整合为最终候选字集，⽤户从所述最终候选字集选择⽬目标汉字输入。最常见的一种算法就是取各个候选字集的交集。
 
-		\subsection{其它命令}
+	在本发明的方法中，⽤户可以依次输⼊所述各项检索信息。此时，用户输入一项检索信息后，所述显⽰屏显示根据该检索信息检索得到的候选字集和根据上一项检索信息检索得到的候选字集通过所述设定的算法整合后的候选字集，即显⽰屏上显示的汉字根据用户的输入而更新。
 
-		\begin{itemize}\denselist
-			\item \verb|\maketitle|：
-				此命令根据设定好的文档信息自动生成论文的标题页，亦即封面。
-			\item \verb|\specialchap|：
-				此命令用于开始不进行标号但计入目录的一章，
-				并合理安排其页眉。%
-				\emph
-				{%
-					注意在此章内的节或小节等命令应使用带星号的版本，
-					例如~\texttt{\string\section\string*}~等，
-					以免造成章节编号混乱。%
-				}
-				\par
-				例如，本文档中的“绪言”一章就是用~\verb|\specialchap{绪言}|~%
-				这条命令开始的。
-		\end{itemize}
+	在本发明的方法中，用户也可以同时输入所述各项检索信息，⽐如，通过多点触控触摸屏同时输入。
 
-		\subsection{从其它文档类和宏包继承的命令\label{sec:inherit}}
-
-		pkuthss~文档类以~ctexbook~文档类为基础，
-		并默认调用了以下宏包：
-		\begin{itemize}\denselist
-			\item fntef：
-				提供了~\verb|\maketitle|~中调用的~%
-				\verb|\CJKunderline|~命令。
-			\item graphicx\supercite{graphicx-doc}：提供图形支持。
-			\item geometry\supercite{geometry-doc}：用于设置页面布局。
-			\item fancyhdr\supercite{fancyhdr-doc}：用于设置页眉、页脚。
-		\end{itemize}
-		因此，ctexbook~文档类和这些宏包所提供的命令均可以使用。
-
-		\vspace{1em}\par
-		\emph
-		{%
-			注意：
-			pkuthss~文档类中有一些一旦改动就有可能破坏预设的排版规划，
-			因此不建议更改这些设置，它们是：
-			\begin{itemize}\denselist
-				\item 纸张类型：A4；
-				\item 版心尺寸：%
-					$240\,\mathrm{mm}\times150\,\mathrm{mm}$，
-					包含页眉、页脚；
-				\item 默认字号：小四号。
-			\end{itemize}
-		}
+	为了提高⽤户的输入效率，考虑到声母和韵母之间并⾮任意搭配，⽽是存在一定的 匹配性，比如，声母 “m” 和韵母 “ia” 就⽆法搭配。因此，在本发明方法中,当用户在声母和韵母中仅输入其中⼀项(即只输⼊声母或只输入韵母)时，所述输⼊设备突出显⽰和⽤户输⼊的声母或韵母相匹配的韵母或声母，便于⽤户输入。此时，若⽤户输⼊未突出显示的韵母或声母，则可以确定⽤户选择的拼音⽆法获得对应的汉字,则认为用户取消了前一次的输⼊，以当前输⼊的声母或者韵母作为初始的拼⾳输入。
 
 	\section{具体实现}
-
-	pkuthss~文档类定义了两个环境——\verb|cabstract|~和~\verb|cabstract|，
-	分别用于编写中文和英文摘要。
-	用户只需要写摘要的正文；标题、作者、导师、专业等部分会自动生成。
-
-	此外，pkuthss~文档类还从第~\ref{sec:inherit}~节中所述的%
-	文档类和宏包中继承了各种环境，用户也可以使用它们。
 
