@@ -1,0 +1,35 @@
+\chapter{代码统计}
+
+主程序代码是两种输入法在Android系统上的实现。包括两种布局的实现，各种按键交互的时间，轨迹算法的实现等等。\footnote{代码统计使用工具cloc: \url{http://cloc.sourceforge.net/}，下同}
+
+\begin{table}[h]
+  \begin{tabular*}{150mm}{@{\extracolsep{\fill} } l || r || r || r || r }
+  \hline
+  语言 & 文件数 & 空行数 & 注释 & 实际代码量 \\
+  \hline
+  Java & 13 & 310 & 602 & 2463 \\
+  XML & 26 & 117 & 14 & 1582 \\
+  \hline
+  SUM: & 39 & 427 & 616 & 4045 \\
+  \hline
+  \end{tabular*}
+  \caption{主程序代码量统计}
+  \label{table:main_stats}
+\end{table}
+
+辅助小程序是用于统计txt文本中拉丁字母和中文汉字所使用的QWERTY键位的次数，并画出热图及统计图。（见第\ref{sec:limit}节）程序以交互式网页的形式呈现，在\url{http://hacker-yhj.github.io/projects/keyboardStroke/index.html}可以访问。
+
+\begin{table}[h]
+  \begin{tabular*}{150mm}{@{\extracolsep{\fill} } l || r || r || r || r }
+  \hline
+  语言 & 文件数 & 空行数 & 注释 & 实际代码量 \\
+  \hline
+  HTML & 1 & 38 & 6 & 393 \\
+  Javascript & 1 & 9 & 0 & 161 \\
+  \hline
+  SUM: & 2 & 47 & 6 & 554 \\
+  \hline
+  \end{tabular*}
+  \caption{辅助程序代码量统计}
+  \label{table:aux_stats}
+\end{table}
