@@ -1,0 +1,73 @@
+\chapter{关键算法\label{sec:code}}
+
+本节摘取了本设计中最关键的轨迹匹配算法。该算法采集用户在屏幕上的轨迹历史，并与每一个可能的韵母组合的轨迹相匹配，计算相似度。相似度计算方法见第\ref{sec:tra_algorithm}节。最后，返回相似度最小的韵母组合。
+
+\begin{lstlisting}[language=Java]
+/**
+ * Calculate the touch history and translate the trajectory into correct 韵母
+ * @param data history points
+ * @return 韵母 or null
+ */
+private String calc(TouchHistory data) {
+  if (null == trajectories) buildTrajectory();
+
+  // if trajectory starts and ends within same rect
+  // treat this as an simple touch
+  if (data.historyCount == 0) return locate(data.history[0]).yun;
+
+  YunRect easyDetect = isInSameRect(data.history[0], data.history[data.historyCount-1]);
+  if (null != easyDetect) {
+    return easyDetect.yun;
+  }
+
+  // else pick a standard trajectory that has minimal distance from
+  // each point of user trajectory
+  else {
+    // sR: where user trajectory starts
+    // eR: where user trajectory ends
+    YunRect sR = locate(data.history[0]);
+    YunRect eR = locate(data.history[data.historyCount-1]);
+
+    // result: standard trajectory that is closest to user trajectory
+    // minSumDist: distance from result to user trajectory
+    YunRect[] result = null;
+    double minSumDist = Double.MAX_VALUE;
+    for (YunRect[] trajectory : trajectories) {
+      if (sR != trajectory[0] ||
+              eR != trajectory[trajectory.length - 1]) {
+          continue;
+      }
+
+      // sumDist is the minimal sum distance from user trajectory to
+      // standard trajectory in this iteration
+      double sumDist = 0;
+      for (PointF trajPoint : data.history) {
+        double pointDist = Double.MAX_VALUE;
+        for (int i = 1; i < trajectory.length; ++i) {
+          PointF s = new PointF(trajectory[i - 1].centerX(), trajectory[i - 1].centerY());
+          PointF e = new PointF(trajectory[i].centerX(), trajectory[i].centerY());
+
+          // for each point in user trajectory, choose a min distance from standard trajectories.
+          double tmpDist = disFromLine(s, e, trajPoint);
+          pointDist = pointDist < tmpDist ? pointDist : tmpDist;
+        }
+        sumDist += pointDist;
+      }
+
+      if (sumDist < minSumDist) {
+        minSumDist = sumDist;
+        result = trajectory;
+      }
+    }
+
+    if (null != result) {
+      String sYun = "";
+      for (YunRect r : result) {
+        sYun += r.yun;
+      }
+      return sYun;
+    }
+  }
+  return null;
+}
+\end{lstlisting}

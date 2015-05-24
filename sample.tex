@@ -2,12 +2,37 @@
 % -*- coding: UTF-8; -*-
 
 \documentclass[UTF8,hyperref]{pkuthss}
-
+% math
+\usepackage{mathtools}
 % 产生 originauth.tex 里的 \Square。
 \usepackage{wasysym}
 % 提供 verbatiminput 命令和 comment 环境。
 \usepackage{verbatim}
 
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgray}{rgb}{0.46,0.45,0.48}
+
+% code highlighting
+\usepackage{listings}
+% for java
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\color{pgray},
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily
+}
 % 设置页芯居中。
 \geometry{centering}
 % 设定行距。
@@ -87,6 +112,7 @@
     \phantomsection
 
     % 各附录。
+    \include{chap/code}
     \include{chap/stats}
   \end{appendix}
 
